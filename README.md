@@ -139,22 +139,45 @@ The application will:
 
 ## Building for Windows
 
-### On Windows
+Two ready-made shell scripts are provided for convenience:
+
+| Script | Output | Description |
+|--------|--------|-------------|
+| `build_console.sh` | `network_manager.exe` | Console binary — shows a terminal window when launched |
+| `build_no_console.sh` | `network_manager_no_console.exe` | Silent binary — no console window, runs in the background |
+
+### Using the build scripts (macOS / Linux)
 
 ```bash
-go build -o network_manager.exe .
+# Make scripts executable (first time only)
+chmod +x build_console.sh build_no_console.sh
+
+# Build console binary
+./build_console.sh
+
+# Build no-console binary
+./build_no_console.sh
 ```
 
-### Cross-compile from macOS / Linux
+### Manual build commands
 
+#### Console binary (shows terminal window)
 ```bash
 GOOS=windows GOARCH=amd64 go build -o network_manager.exe .
 ```
 
-### Cross-compile without a GUI console window (Windows only)
-
+#### No-console binary (no console window)
 ```bash
-GOOS=windows GOARCH=amd64 go build -ldflags="-H windowsgui" -o network_manager_gui.exe .
+GOOS=windows GOARCH=amd64 go build -ldflags="-H windowsgui" -o network_manager_no_console.exe .
+```
+
+#### On Windows directly
+```bash
+# Console
+go build -o network_manager.exe .
+
+# No-console (no console window)
+go build -ldflags="-H windowsgui" -o network_manager_no_console.exe .
 ```
 
 ---
