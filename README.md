@@ -60,7 +60,7 @@ windows-network-manager/
 ├── go.mod                   # Go module definition
 ├── go.sum                   # Dependency checksums
 ├── network_manager.exe      # Pre-built Windows binary (no GUI)
-├── network_manager_gui.exe  # Pre-built Windows binary (GUI variant)
+├── network_manager_no_console.exe  # Pre-built Windows binary (no console window)
 └── README.md
 ```
 
