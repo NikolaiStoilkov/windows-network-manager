@@ -1,0 +1,24 @@
+[
+  {
+    "InterfaceIP": "192.168.33.200",
+    "DNSServer": "1.1.1.1",
+    "ProxyPort": "8081",
+    "BrowserPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "ProfileName": "chrome_lan_33"
+  },
+  {
+    "InterfaceIP": "192.168.44.250",
+    "DNSServer": "8.8.8.8",
+    "ProxyPort": "8082",
+    "BrowserPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "ProfileName": "edge_lan_44"
+  },
+  {
+    "InterfaceIP": "192.168.35.20",
+    "DNSServer": "192.168.35.1",
+    "ProxyPort": "8083",
+    "BrowserPath": "C:\\Users\\YourUser\\AppData\\Local\\Programs\\Opera\\launcher.exe",
+    "ProfileName": "opera_lan_35"
+  }
+]
+

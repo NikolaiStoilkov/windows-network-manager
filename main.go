@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"os/exec"
 	"time"
 
@@ -18,6 +20,26 @@ type NetworkConfig struct {
 	ProxyPort   string
 	BrowserPath string
 	ProfileName string
+}
+
+const configFile = "./config.json"
+
+func loadConfigs(path string) ([]NetworkConfig, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("could not read config file %q: %w", path, err)
+	}
+
+	var configs []NetworkConfig
+	if err := json.Unmarshal(data, &configs); err != nil {
+		return nil, fmt.Errorf("could not parse config file %q: %w", path, err)
+	}
+
+	if len(configs) == 0 {
+		return nil, fmt.Errorf("config file %q contains no entries", path)
+	}
+
+	return configs, nil
 }
 
 func startProxy(config NetworkConfig) {
@@ -74,30 +96,12 @@ func launchBrowser(config NetworkConfig) {
 }
 
 func main() {
-	//mock config
-	configs := []NetworkConfig{
-		{
-			InterfaceIP: "192.168.33.200",
-			DNSServer:   "1.1.1.1", // Cloudflare
-			ProxyPort:   "8081",
-			BrowserPath: `C:\Program Files\Google\Chrome\Application\chrome.exe`,
-			ProfileName: "chrome_lan_33",
-		},
-		{
-			InterfaceIP: "192.168.44.250",
-			DNSServer:   "8.8.8.8", // Google
-			ProxyPort:   "8082",
-			BrowserPath: `C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`,
-			ProfileName: "edge_lan_44",
-		},
-		{
-			InterfaceIP: "192.168.35.20",
-			DNSServer:   "192.168.35.1", // Local Router DNS
-			ProxyPort:   "8083",
-			BrowserPath: `C:\Users\YourUser\AppData\Local\Programs\Opera\launcher.exe`,
-			ProfileName: "opera_lan_35",
-		},
+	configs, err := loadConfigs(configFile)
+	if err != nil {
+		log.Fatalf("[-] Failed to load config: %v\n", err)
 	}
+
+	fmt.Printf("[*] Loaded %d network config(s) from %s\n", len(configs), configFile)
 
 	for _, conf := range configs {
 		go startProxy(conf)
